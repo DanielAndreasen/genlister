@@ -34,8 +34,12 @@ jobs:
         echo "::set-output name=comment::$(cat validation_output.txt)"
 
     - name: Comment on PR
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PR_NUMBER: ${{ github.event.pull_request.number }}
-      run: |
-        gh pr comment $PR_NUMBER --body "${{ steps.validate_csv.outputs.comment }}"
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: "${{ steps.validate_csv.outputs.comment }}"
+          })
