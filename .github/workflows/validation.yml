@@ -28,5 +28,14 @@ jobs:
 
 
     - name: Validate CSV files
+      if: validate_csv
       run: |
-        python scripts/validation/validate.py cnv cnv/moma/gener.csv
+        python scripts/validation/validate.py cnv cnv/moma/gener.csv > validation_output.txt
+        echo "::set-output name=comment::$(cat validation_output.txt)"
+
+    - name: Comment on PR
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        gh pr comment $PR_NUMBER --body "${{ steps.validate_csv.outputs.comment }}"

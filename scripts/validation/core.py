@@ -29,6 +29,7 @@ class CSVBase(BaseModel):
     def clean_name(cls, value):
         if " " in value:
             raise ValueError(f"Name cannot have spaces: '{value}'")
+        return value
 
     @field_validator("hgnc_id")
     def number_must_be_positive(cls, value):

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import typer
 from core import TYPE2VALIDATOR, TypeOfListEnum
+from pydantic import ValidationError
 
 app = typer.Typer()
 
@@ -15,7 +16,11 @@ def validate_file(type_of_list: TypeOfListEnum, fname: Path):
         header = f.readline().strip().split(",")
         for row in f:
             values = {k: v for k, v in zip(header, row.strip().split(","))}
-            validator.model_validate(values)
+            try:
+                validator.model_validate(values)
+            except ValidationError as e:
+                print(f"Noget er galt med rækken: '{row.strip()}'", end="\n")
+                print(f"{e}\n")
 
 
 if __name__ == "__main__":
