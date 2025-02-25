@@ -33,7 +33,17 @@ jobs:
         python scripts/validation/validate.py cnv cnv/moma/gener.csv > validation_output.txt
         echo "::set-output name=comment::$(cat validation_output.txt)"
 
+    - name: Check if validation output is not empty
+      id: check_files
+      run: |
+        if [ -s validation_output.txt ]; then
+          echo "::set-output name=has_content::true"
+        else
+          echo "::set-output name=has_content::false"
+        fi
+
     - name: PR comment with file
+      if: steps.check_files.outputs.has_content == 'true'
       uses: thollander/actions-comment-pull-request@v3
       with:
         file-path: validation_output.txt

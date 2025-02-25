@@ -35,7 +35,6 @@ def validate_file(type_of_list: TypeOfListEnum, fname: Path):
             except ValidationError as e:
                 print(f"Noget er galt med rækken:\n**{row.strip()}**", end="\n")
                 print(f"{clean_error(e)}\n")
-                # print(e)
 
 
 if __name__ == "__main__":
