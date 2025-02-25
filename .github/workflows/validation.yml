@@ -28,7 +28,7 @@ jobs:
 
 
     - name: Validate CSV files
-      if: validate_csv
+      id: validate_csv
       run: |
         python scripts/validation/validate.py cnv cnv/moma/gener.csv > validation_output.txt
         echo "::set-output name=comment::$(cat validation_output.txt)"
