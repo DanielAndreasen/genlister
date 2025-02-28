@@ -31,6 +31,7 @@ jobs:
     - name: Validate CSV files
       id: validate_csv
       run: |
+        source .venv/bin/activate
         python src/genlister/validate.py cnv cnv/moma/gener.csv > validation_output.txt
         echo "::set-output name=comment::$(cat validation_output.txt)"
 
