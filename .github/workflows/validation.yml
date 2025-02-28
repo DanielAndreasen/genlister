@@ -24,13 +24,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pydantic typer
-
+        pip install uv
+        uv pip install -e .
 
     - name: Validate CSV files
       id: validate_csv
       run: |
-        python scripts/validation/validate.py cnv cnv/moma/gener.csv > validation_output.txt
+        python src/genlister/validate.py cnv cnv/moma/gener.csv > validation_output.txt
         echo "::set-output name=comment::$(cat validation_output.txt)"
 
     - name: Check if validation output is not empty

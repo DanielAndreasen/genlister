@@ -3,7 +3,7 @@ from pathlib import Path
 import typer
 from pydantic import ValidationError
 
-from .core import TYPE2VALIDATOR, CSVBase, TypeOfListEnum
+from genlister.core import TYPE2VALIDATOR, CSVBase, TypeOfListEnum
 
 
 def clean_error(e: ValidationError) -> str:
