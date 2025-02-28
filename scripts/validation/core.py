@@ -26,13 +26,13 @@ class CSVBase(BaseModel):
     notes: str | None
 
     @field_validator("hugo_name")
-    def clean_name(cls, value):
+    def clean_name(cls, value: str) -> str:
         if " " in value:
             raise ValueError(f"Name cannot have spaces: '{value}'")
         return value
 
     @field_validator("hgnc_id")
-    def number_must_be_positive(cls, value):
+    def number_must_be_positive(cls, value: int) -> int:
         if value <= 0:
             raise ValueError(f"HGNC must be greater than 0: '{value}'")
         return value

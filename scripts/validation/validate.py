@@ -1,12 +1,13 @@
 from pathlib import Path
 
 import typer
-from core import TYPE2VALIDATOR, CSVBase, TypeOfListEnum
 from pydantic import ValidationError
+
+from .core import TYPE2VALIDATOR, CSVBase, TypeOfListEnum
 
 
 def clean_error(e: ValidationError) -> str:
-    res = []
+    res: list[str] = []
     for index, line in enumerate(str(e).split("\n")):
         match index % 3:
             case 1:
@@ -32,7 +33,7 @@ def validate_file(type_of_list: TypeOfListEnum, fname: Path):
     if not fname.exists():
         raise IOError(f"File not found: {fname}")
     validator = TYPE2VALIDATOR[type_of_list]
-    genes = []
+    genes: list[CSVBase] = []
     with open(fname, "r") as f:
         header = f.readline().strip().split(",")
         for row in f:
